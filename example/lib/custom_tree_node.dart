@@ -16,28 +16,28 @@ class TreeModel with TreeNode<TreeModel> {
   }
 }
 
-class CustomTreeNodeWidget<T extends TreeNode> extends StatelessWidget {
+class CustomTreeNodeWidget extends StatelessWidget {
   const CustomTreeNodeWidget({
     required this.data,
     super.key,
   });
 
-  final T data;
+  final TreeModel data;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const PlateNodeWidget(
-          title: '计算机硬件',
-          subTitle: '64.66%',
+        PlateNodeWidget(
+          title: data.name,
+          subTitle: '宽度根据内容自适应',
           subTitleColor: Colors.red,
           isSelected: false,
         ),
-        const SizedBox(
-          width: 3,
-        ),
+        // const SizedBox(
+        //   width: 3,
+        // ),
         if (data.getChildren.isEmpty)
           const Padding(
             padding: EdgeInsets.only(top: 16),

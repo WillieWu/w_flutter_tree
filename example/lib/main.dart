@@ -32,28 +32,33 @@ class _MyAppState extends State<MyApp> {
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               physics: const AlwaysScrollableScrollPhysics(),
-              child: Container(
-                color: Colors.red,
-                child: TreeWidget<TreeModel>(
-                  node: TreeModel(
-                    name: '0',
-                    trees: [
-                      TreeModel(name: '1', trees: [
-                        TreeModel(name: '2', trees: [TreeModel(name: '7')]),
-                        TreeModel(name: '3'),
-                        TreeModel(name: '4'),
-                      ]),
-                      TreeModel(name: '4', trees: [
-                        TreeModel(name: '5'),
-                        TreeModel(name: '6'),
-                        TreeModel(name: '4'),
-                      ]),
-                    ],
-                  ),
-                  builder: (node) {
-                    return CustomTreeNodeWidget(data: node);
-                  },
+              child: TreeWidget<TreeModel>(
+                node: TreeModel(
+                  name: '根节点',
+                  trees: [
+                    TreeModel(name: '节点1', trees: [
+                      TreeModel(
+                        name: '节点1-1',
+                        trees: [
+                          TreeModel(name: '节点1-1-1'),
+                        ],
+                      ),
+                      TreeModel(name: '节点1-2'),
+                      TreeModel(name: '节点1-3'),
+                    ]),
+                    TreeModel(
+                      name: '节点2',
+                      trees: [
+                        TreeModel(name: '节点2-1'),
+                        TreeModel(name: '节点2-2'),
+                        TreeModel(name: '节点2-3'),
+                      ],
+                    ),
+                  ],
                 ),
+                builder: (node) {
+                  return CustomTreeNodeWidget(data: node);
+                },
               ),
             )
           ],

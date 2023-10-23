@@ -148,9 +148,6 @@ class CustomTreePainter extends CustomPainter {
     this.bottomSpace = 0,
     this.hasChildren = false,
     this.hasParent = false,
-    this.circleRadius = 3,
-    this.showleadingDot = false,
-    this.showTrailingDot = false,
   });
 
   final double strokeWidth;
@@ -160,10 +157,6 @@ class CustomTreePainter extends CustomPainter {
   final double bottomSpace;
   final bool hasChildren;
   final bool hasParent;
-  final bool showTrailingDot;
-  final bool showleadingDot;
-
-  final double circleRadius;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -173,27 +166,19 @@ class CustomTreePainter extends CustomPainter {
       ..style = PaintingStyle.fill;
 
     final childHeight = size.height - bottomSpace;
-    final endPoint = Offset(leadingWidth - circleRadius - strokeWidth, childHeight / 2);
 
     canvas.save();
 
     if (hasParent) {
-      canvas.drawLine(
-          Offset(0, childHeight / 2), showleadingDot ? endPoint : Offset(leadingWidth, childHeight / 2), paint);
-      if (showleadingDot) {
-        canvas.drawCircle(Offset(leadingWidth - circleRadius - strokeWidth, childHeight / 2), 3, paint);
-      }
+      canvas.drawLine(Offset(0, childHeight / 2), Offset(leadingWidth, childHeight / 2), paint);
     }
 
     if (hasChildren) {
       canvas.drawLine(
         Offset(size.width - trailingWidth, childHeight / 2),
-        Offset(showTrailingDot ? size.width - circleRadius * 2 : size.width, childHeight / 2),
+        Offset(size.width, childHeight / 2),
         paint,
       );
-      if (showTrailingDot) {
-        canvas.drawCircle(Offset(size.width - circleRadius * 2, childHeight / 2), circleRadius, paint);
-      }
     }
 
     canvas.restore();
@@ -204,8 +189,7 @@ class CustomTreePainter extends CustomPainter {
     if (hasChildren != oldDelegate.hasChildren ||
         hasParent != oldDelegate.hasParent ||
         bottomSpace != oldDelegate.bottomSpace ||
-        strokeWidth != oldDelegate.strokeWidth ||
-        circleRadius != oldDelegate.circleRadius) {
+        strokeWidth != oldDelegate.strokeWidth) {
       return true;
     }
     return false;
