@@ -38,14 +38,6 @@ class CustomTreeNodeWidget extends StatelessWidget {
         // const SizedBox(
         //   width: 3,
         // ),
-        if (data.getChildren.isEmpty)
-          const Padding(
-            padding: EdgeInsets.only(top: 16),
-            child: Icon(
-              Icons.add,
-              color: Colors.pink,
-            ),
-          )
       ],
     );
   }

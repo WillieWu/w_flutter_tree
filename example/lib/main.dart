@@ -33,7 +33,9 @@ class _MyAppState extends State<MyApp> {
               scrollDirection: Axis.horizontal,
               physics: const AlwaysScrollableScrollPhysics(),
               child: TreeWidget<TreeModel>(
-                style: CustomTreeNodeStyle(),
+                style: CustomTreeNodeStyle(
+                  direction: Axis.vertical,
+                ),
                 node: TreeModel(
                   name: '根节点',
                   trees: [
