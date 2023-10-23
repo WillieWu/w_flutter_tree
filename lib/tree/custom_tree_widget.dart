@@ -190,11 +190,7 @@ class CustomTreePainter extends CustomPainter {
       final p2 = style.direction == Axis.horizontal
           ? Offset(size.width, childHeight / 2)
           : Offset(childHeight / 2, size.height);
-      canvas.drawLine(
-        p1,
-        p2,
-        paint,
-      );
+      canvas.drawLine(p1, p2, paint);
     }
 
     canvas.restore();
