@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:w_flutter_tree/tree/custom_tree_widget.dart';
+import 'package:w_flutter_tree/w_flutter_tree.dart';
 
 class TreeModel with TreeNode<TreeModel> {
   final String name;

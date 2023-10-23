@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:w_flutter_tree/tree/custom_tree_style.dart';
 
 class TreeWidget<T extends TreeNode<T>> extends StatelessWidget {
   const TreeWidget({
     super.key,
     required this.node,
+    required this.style,
     required this.builder,
   });
 
   final T node;
+  final CustomTreeNodeStyle style;
   final Widget Function(T node) builder;
 
   Widget _traverseTree(T subNode) {
@@ -46,16 +49,14 @@ class TreeWidget<T extends TreeNode<T>> extends StatelessWidget {
       child: CustomPaint(
         foregroundPainter: CustomLinePainter(
           type: subNode.type,
-          bottomSpace: subNode.bottomSpace,
+          style: style,
         ),
         child: Row(
           children: [
             RepaintBoundary(
               child: CustomPaint(
                 foregroundPainter: CustomTreePainter(
-                  leadingWidth: subNode.leadingWidth,
-                  trailingWidth: subNode.trailingWidth,
-                  bottomSpace: subNode.bottomSpace,
+                  style: style,
                   hasParent: subNode.parentNode != null,
                   hasChildren: hasChildren,
                   // showTrailingDot: hasChildren && subNode.getChildren.length > 1,
@@ -66,18 +67,18 @@ class TreeWidget<T extends TreeNode<T>> extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(left: subNode.leadingWidth),
+                          padding: EdgeInsets.only(left: style.leadingWidth),
                           child: builder(subNode),
                         ),
                         SizedBox(
-                          height: subNode.bottomSpace,
+                          height: style.bottomSpace,
                         )
                       ],
                     ),
                     if (hasChildren)
                       SizedBox(
                         // color: Colors.red,
-                        width: subNode.trailingWidth,
+                        width: style.trailingWidth,
                         height: 30,
                       ),
                   ],
@@ -107,8 +108,7 @@ enum CustomMindsStrokeLineType { up, down, center, onlyLine, none }
 class CustomLinePainter extends CustomTreePainter {
   CustomLinePainter({
     this.type = CustomMindsStrokeLineType.none,
-    super.bottomSpace,
-    super.strokeWidth,
+    required super.style,
   });
 
   final CustomMindsStrokeLineType type;
@@ -116,18 +116,18 @@ class CustomLinePainter extends CustomTreePainter {
   @override
   void paint(Canvas canvas, Size size) {
     Paint paint = Paint()
-      ..strokeWidth = strokeWidth
-      ..color = strokeColor
+      ..strokeWidth = style.strokeWidth
+      ..color = style.strokeColor
       ..style = PaintingStyle.fill;
 
     canvas.save();
 
     switch (type) {
       case CustomMindsStrokeLineType.up:
-        canvas.drawLine(Offset.zero, Offset(0, (size.height - bottomSpace) / 2), paint);
+        canvas.drawLine(Offset.zero, Offset(0, (size.height - style.bottomSpace) / 2), paint);
         break;
       case CustomMindsStrokeLineType.down:
-        canvas.drawLine(Offset(0, (size.height - bottomSpace) / 2), Offset(0, size.height), paint);
+        canvas.drawLine(Offset(0, (size.height - style.bottomSpace) / 2), Offset(0, size.height), paint);
         break;
       case CustomMindsStrokeLineType.center:
         canvas.drawLine(Offset.zero, Offset(0, size.height), paint);
@@ -141,41 +141,33 @@ class CustomLinePainter extends CustomTreePainter {
 
 class CustomTreePainter extends CustomPainter {
   CustomTreePainter({
-    this.strokeWidth = 1,
-    this.strokeColor = const Color(0xFFB9B9B9),
-    this.leadingWidth = 20,
-    this.trailingWidth = 20,
-    this.bottomSpace = 0,
+    required this.style,
     this.hasChildren = false,
     this.hasParent = false,
   });
 
-  final double strokeWidth;
-  final Color strokeColor;
-  final double leadingWidth;
-  final double trailingWidth;
-  final double bottomSpace;
+  final CustomTreeNodeStyle style;
   final bool hasChildren;
   final bool hasParent;
 
   @override
   void paint(Canvas canvas, Size size) {
     Paint paint = Paint()
-      ..strokeWidth = strokeWidth
-      ..color = strokeColor
+      ..strokeWidth = style.strokeWidth
+      ..color = style.strokeColor
       ..style = PaintingStyle.fill;
 
-    final childHeight = size.height - bottomSpace;
+    final childHeight = size.height - style.bottomSpace;
 
     canvas.save();
 
     if (hasParent) {
-      canvas.drawLine(Offset(0, childHeight / 2), Offset(leadingWidth, childHeight / 2), paint);
+      canvas.drawLine(Offset(0, childHeight / 2), Offset(style.leadingWidth, childHeight / 2), paint);
     }
 
     if (hasChildren) {
       canvas.drawLine(
-        Offset(size.width - trailingWidth, childHeight / 2),
+        Offset(size.width - style.trailingWidth, childHeight / 2),
         Offset(size.width, childHeight / 2),
         paint,
       );
@@ -185,28 +177,8 @@ class CustomTreePainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(CustomTreePainter oldDelegate) {
-    if (hasChildren != oldDelegate.hasChildren ||
-        hasParent != oldDelegate.hasParent ||
-        bottomSpace != oldDelegate.bottomSpace ||
-        strokeWidth != oldDelegate.strokeWidth) {
-      return true;
-    }
-    return false;
-  }
+  bool shouldRepaint(CustomTreePainter oldDelegate) => style.shouldRepaint(oldDelegate.style);
 
   @override
   bool shouldRebuildSemantics(CustomTreePainter oldDelegate) => false;
-}
-
-mixin TreeNode<T> {
-  T? parentNode;
-
-  double leadingWidth = 30;
-  double trailingWidth = 30;
-
-  CustomMindsStrokeLineType type = CustomMindsStrokeLineType.none;
-
-  double bottomSpace = 20;
-  List<T> get getChildren => throw UnimplementedError();
 }
