@@ -14,7 +14,7 @@ class CustomTreeNodeStyle {
   /// 树形图方向
   final Axis direction;
 
-  /// 盒子间距相关
+  /// 树形图间隙相关
   final double mainAxisLeadingWidth;
   final double mainAxisTrailingWidth;
   final double crossAxisSpace;

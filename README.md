@@ -1,15 +1,26 @@
 # w_flutter_tree
 
-A new Flutter plugin project.
+*** 一个简单的树形图展示库 ***
 
 ## Getting Started
 
-This project is a starting point for a Flutter
-[plug-in package](https://flutter.dev/developing-packages/),
-a specialized package that includes platform-specific implementation code for
-Android and/or iOS.
+``` dart
+import 'package:w_flutter_tree/w_flutter_tree.dart';
 
-For help getting started with Flutter development, view the
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+/// 配置树形图样式
+CustomTreeNodeStyle({
+    this.direction = Axis.horizontal,
+    this.mainAxisLeadingWidth = 30,
+    this.mainAxisTrailingWidth = 30,
+    this.crossAxisSpace = 20,
+    this.strokeColor = const Color(0xFFB9B9B9),
+    this.strokeWidth = 1,
+  });
+
+```
+### 示例详情见Example
+
+## 展示图
+(iphone)[./screenshots/iphone.png]
+(macos)[./screenshots/macos.png]
 
