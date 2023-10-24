@@ -1,10 +1,10 @@
 name: w_flutter_tree
-description: A new Flutter plugin project.
+description: 一个简单的树形图展示库
 version: 0.0.1
-homepage:
+homepage: https://github.com/WillieWu/w_flutter_tree
 
 environment:
-  sdk: '>=3.0.6 <4.0.0'
+  sdk: ">=3.0.6 <4.0.0"
   flutter: ">=3.3.0"
 
 dependencies:
